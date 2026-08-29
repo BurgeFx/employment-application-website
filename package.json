@@ -21,7 +21,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js"
-    
   },
   "dependencies": {
     "axios": "^1.18.1",
@@ -40,6 +39,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
+    "nodemailer": "^9.0.6",
     "pg-promise": "^12.7.0",
     "redis": "^6.1.0",
     "winston": "^3.19.0"

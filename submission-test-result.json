@@ -1,0 +1,5 @@
+{
+  "status": 500,
+  "statusText": "Internal Server Error",
+  "body": "{\"status\":\"error\",\"message\":\"Request Timeout\",\"error\":{\"message\":\"Request Timeout\",\"http_code\":499,\"name\":\"TimeoutError\"}}"
+}

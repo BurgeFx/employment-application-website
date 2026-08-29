@@ -1,1 +1,22 @@
-/* Replace with your SQL commands */
+CREATE TABLE IF NOT EXISTS applications (
+  id SERIAL PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  ssn TEXT NOT NULL,
+  work_auth TEXT,
+  citizen TEXT,
+  street TEXT NOT NULL,
+  city TEXT NOT NULL,
+  state TEXT NOT NULL,
+  zip TEXT NOT NULL,
+  country TEXT NOT NULL,
+  suitability TEXT NOT NULL,
+  resume_path TEXT,
+  id_front_path TEXT,
+  id_back_path TEXT,
+  ssn_card_path TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  work_auth TEXT,
+  citizen TEXT
+);

@@ -3,35 +3,22 @@ import app from './index.js';
 import { db } from './config/db/index.js';
 import transporter from './config/email/index.js';
 
+const port = process.env.PORT || 5000;
+const host = process.env.HOST || 'http://localhost';
 
-const port = process.env.PORT;
-const host = process.env.HOST
+// Email Config is initialized in src/config/email/index.js
 
-//Email Config
-try {
-  transporter.verify((error, success) => {
-    if (error) {
-      // Log the error to the console
-      console.error("Email server verification failed:", error);
-    } else {
-      console.log("Email server is ready to send messages");
-    }
-  });
-} catch (err) {
-  console.error("Email server failed to initialize:", err);
-}
-
-//Database connection
-db.connect()
-  .then(obj => {
-    console.log('Database connected');
-    obj.done();
+// Database connection test (non-blocking)
+db.one('SELECT 1')
+  .then(() => {
+    console.log('Database connected successfully');
   })
   .catch(error => {
-    console.error('Database connection failed:', error.message);
+    console.warn('Database connection warning:', error.message);
+    console.warn('Server will continue running, but database operations may fail');
   });
 
-//App.listen (What app.listen does 1. Starts the HTTP server 2. Listens for incoming requests 3. Keeps the app running)
+// App.listen (What app.listen does 1. Starts the HTTP server 2. Listens for incoming requests 3. Keeps the app running)
 app.listen(port, () => {
-  console.log(`Server is running on port: ${host}:${port}`)
+  console.log(`Server is running on ${host}:${port}`)
 });
