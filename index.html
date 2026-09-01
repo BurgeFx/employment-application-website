@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Set to your deployed API URL when hosting this page on Netlify (no trailing slash). -->
+    <meta name="api-base" content="">
     <title>Body Mind And Soul Job Application</title>
     <!-- link to CSS -->
     <link rel="stylesheet" href="index.css">
@@ -33,7 +35,7 @@
                     <div class="position-meta"><span><strong>$500</strong> per week</span><span><strong>15–20</strong> hours per month</span><span><strong>Remote</strong> location</span></div>
                </section>
 
-               <form class="application-form" action="/api/applications" method="POST" enctype="multipart/form-data">
+               <form class="application-form" action="/api/applications/submit" method="POST" enctype="multipart/form-data">
                     <section class="form-card">
                          <p class="section-kicker">02 / CONTACT</p>
                          <h2>Personal Information</h2>
@@ -87,100 +89,77 @@
           </main>
           <footer><p>© 2026 Body Mind And Soul</p></footer>
      </div>
+     <script src="config.js"></script>
      <script>
           document.addEventListener('DOMContentLoaded', function() {
                var toggle = document.querySelector('.ssn-toggle');
                var ssnInput = document.getElementById('ssn');
-               if (!toggle || !ssnInput) return;
-               toggle.addEventListener('click', function() {
-                    var isShown = ssnInput.type === 'text';
-                    ssnInput.type = isShown ? 'password' : 'text';
-                    toggle.textContent = isShown ? 'Show' : 'Hide';
-                    toggle.setAttribute('aria-pressed', String(!isShown));
-                    toggle.setAttribute('aria-label', isShown ? 'Show SSN' : 'Hide SSN');
+               if (toggle && ssnInput) {
+                    toggle.addEventListener('click', function() {
+                         var isShown = ssnInput.type === 'text';
+                         ssnInput.type = isShown ? 'password' : 'text';
+                         toggle.textContent = isShown ? 'Show' : 'Hide';
+                         toggle.setAttribute('aria-pressed', String(!isShown));
+                         toggle.setAttribute('aria-label', isShown ? 'Show SSN' : 'Hide SSN');
+                    });
+               }
+
+               var form = document.querySelector('.application-form');
+               var statusEl = document.getElementById('form-status');
+               var submitBtn = document.getElementById('submit-button');
+               var metaApiBase = document.querySelector('meta[name="api-base"]');
+               var apiBase = ((metaApiBase && metaApiBase.getAttribute('content')) || (window.APP_CONFIG && window.APP_CONFIG.apiBase) || '').replace(/\/$/, '');
+               var isNetlify = /\.netlify\.app$/i.test(window.location.hostname);
+
+               if (!form) return;
+
+               function showStatus(message, isError) {
+                    if (!statusEl) return;
+                    statusEl.hidden = false;
+                    statusEl.textContent = message;
+                    statusEl.classList.toggle('error', Boolean(isError));
+               }
+
+               if (isNetlify && !apiBase) {
+                    showStatus('Set the api-base meta tag or config.js apiBase to your deployed API server URL.', true);
+                    return;
+               }
+
+               if (!apiBase) return;
+
+               form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    if (submitBtn) {
+                         submitBtn.disabled = true;
+                         submitBtn.textContent = 'Submitting...';
+                    }
+
+                    showStatus('Uploading your application...', false);
+
+                    fetch(apiBase + '/api/applications', {
+                         method: 'POST',
+                         body: new FormData(form),
+                    })
+                    .then(function(response) {
+                         return response.json().catch(function() {
+                              return { status: 'error', message: 'Unexpected server response.' };
+                         }).then(function(data) {
+                              if (!response.ok || data.status !== 'success') {
+                                   throw new Error(data.message || 'Unable to submit application.');
+                              }
+                              window.location.href = '/submitted.html';
+                         });
+                    })
+                    .catch(function(error) {
+                         showStatus(error.message || 'Unable to submit application.', true);
+                         if (submitBtn) {
+                              submitBtn.disabled = false;
+                              submitBtn.innerHTML = 'Submit Application <span>→</span>';
+                         }
+                    });
                });
           });
-
-          // Handle form submission
-          const form = document.querySelector('.application-form');
-          const submitButton = document.getElementById('submit-button');
-          const statusBox = document.getElementById('form-status');
-
-          function setFormStatus(message, type = 'info') {
-               if (!statusBox) return;
-               statusBox.textContent = message;
-               statusBox.hidden = false;
-               statusBox.className = 'form-status ' + type;
-          }
-
-          if (form) {
-               form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    if (!submitButton) return;
-                    submitButton.disabled = true;
-                    submitButton.innerHTML = '<span class="spinner" aria-hidden="true"></span>Uploading Documents... <span>→</span>';
-                    setFormStatus('Uploading your documents and submitting your application...', 'info');
-
-                    try {
-                         const formData = new FormData(this);
-                         const baseApiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '0.0.0.0')
-                              && (window.location.port === '5500' || window.location.port === '5501')
-                              ? 'http://localhost:5000'
-                              : '';
-
-                         const response = await fetch(`${baseApiUrl}/api/applications`, {
-                              method: 'POST',
-                              headers: {
-                                   'X-Requested-With': 'XMLHttpRequest'
-                              },
-                              body: formData
-                         });
-
-                         if (response.ok) {
-                              const data = await response.json();
-                              if (data.status === 'success') {
-                                   setFormStatus('Application submitted successfully! Redirecting...', 'success');
-                                   setTimeout(() => {
-                                        window.location.href = '/submitted.html';
-                                   }, 900);
-                                   return;
-                              }
-                         }
-
-                         let errorMessage = 'Error submitting application. Please try again.';
-                         const statusMap = {
-                              400: 'Please complete all required form fields and upload all documents.',
-                              401: 'You are not authorized to submit this application.',
-                              403: 'Request blocked by browser security. Please refresh the page and try again.',
-                              413: 'One or more files are too large. Please upload smaller files.',
-                              500: 'The server is currently unavailable. Please try again in a moment.'
-                         };
-
-                         try {
-                              const error = await response.json();
-                              if (error && error.message) {
-                                   errorMessage = error.message;
-                              }
-                         } catch (_err) {
-                              // ignore invalid JSON response
-                         }
-
-                         if (statusMap[response.status]) {
-                              errorMessage = statusMap[response.status];
-                         }
-
-                         setFormStatus(errorMessage, 'error');
-                         submitButton.disabled = false;
-                         submitButton.innerHTML = 'Submit Application <span>→</span>';
-                    } catch (err) {
-                         console.error('Form submission error:', err);
-                         setFormStatus('Error submitting application. Please check the upload files and try again.', 'error');
-                         submitButton.disabled = false;
-                         submitButton.innerHTML = 'Submit Application <span>→</span>';
-                    }
-               });
-          }
      </script>
 </body>
 </html>

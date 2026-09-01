@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { createApplication } from '../controllers/applications.controller.js';
+import { createApplication, submitApplication } from '../controllers/applications.controller.js';
 
 const router = express.Router();
 
@@ -58,7 +58,7 @@ const cpUpload = upload.fields([
   { name: 'ssn_card', maxCount: 1 },
 ]);
 
-router.post('/', (req, res, next) => {
+const validateApplicationUpload = (req, res, next) => {
   cpUpload(req, res, (err) => {
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {
@@ -88,6 +88,19 @@ router.post('/', (req, res, next) => {
 
     next();
   });
-}, createApplication);
+};
+
+router.options('/', (_req, res) => {
+  res.sendStatus(204);
+});
+
+router.options('/submit', (_req, res) => {
+  res.sendStatus(204);
+});
+
+router.post('/', validateApplicationUpload, createApplication);
+
+// POST /api/applications/submit - handles standard form submits and forces a server-side redirect
+router.post('/submit', validateApplicationUpload, submitApplication);
 
 export default router;

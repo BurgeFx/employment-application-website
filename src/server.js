@@ -19,6 +19,10 @@ db.one('SELECT 1')
   });
 
 // App.listen (What app.listen does 1. Starts the HTTP server 2. Listens for incoming requests 3. Keeps the app running)
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server is running on ${host}:${port}`)
 });
+
+server.setTimeout(5 * 60 * 1000);
+server.headersTimeout = 5 * 60 * 1000 + 1000;
+server.requestTimeout = 5 * 60 * 1000;
