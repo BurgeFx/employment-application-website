@@ -35,7 +35,7 @@
                     <div class="position-meta"><span><strong>$500</strong> per week</span><span><strong>15–20</strong> hours per month</span><span><strong>Remote</strong> location</span></div>
                </section>
 
-               <form class="application-form" action="/api/applications/submit" method="POST" enctype="multipart/form-data">
+               <form class="application-form" action="/.netlify/functions/application-submit" method="POST" enctype="multipart/form-data">
                     <section class="form-card">
                          <p class="section-kicker">02 / CONTACT</p>
                          <h2>Personal Information</h2>
@@ -110,8 +110,11 @@
                var metaApiBase = document.querySelector('meta[name="api-base"]');
                var apiBase = ((metaApiBase && metaApiBase.getAttribute('content')) || (window.APP_CONFIG && window.APP_CONFIG.apiBase) || '').replace(/\/$/, '');
                var isNetlify = /\.netlify\.app$/i.test(window.location.hostname);
+               var submitUrl = isNetlify ? '/.netlify/functions/application-submit' : (apiBase ? apiBase + '/api/applications' : '/api/applications');
 
                if (!form) return;
+
+               form.setAttribute('action', submitUrl);
 
                function showStatus(message, isError) {
                     if (!statusEl) return;
@@ -119,13 +122,6 @@
                     statusEl.textContent = message;
                     statusEl.classList.toggle('error', Boolean(isError));
                }
-
-               if (isNetlify && !apiBase) {
-                    showStatus('Set the api-base meta tag or config.js apiBase to your deployed API server URL.', true);
-                    return;
-               }
-
-               if (!apiBase) return;
 
                form.addEventListener('submit', function(event) {
                     event.preventDefault();
@@ -137,11 +133,17 @@
 
                     showStatus('Uploading your application...', false);
 
-                    fetch(apiBase + '/api/applications', {
+                    fetch(submitUrl, {
                          method: 'POST',
                          body: new FormData(form),
                     })
                     .then(function(response) {
+                         var contentType = (response.headers && response.headers.get('content-type')) || '';
+                         if (response.redirected || contentType.indexOf('text/html') !== -1) {
+                              window.location.href = '/submitted.html';
+                              return;
+                         }
+
                          return response.json().catch(function() {
                               return { status: 'error', message: 'Unexpected server response.' };
                          }).then(function(data) {
